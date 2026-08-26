@@ -13,6 +13,11 @@ its own folder with a `DEMO.md` presenter script and copy-paste prompts.
 Run them in order. Each `DEMO.md` has the exact prompt(s) to paste and a short
 regie note on what to narrate while Claude works.
 
+## After the demos: hands-on tasks
+
+Open [`tasks/index.html`](tasks/index.html) in a browser — five self-contained
+exercises for participants to work through solo, plus tips & tricks.
+
 ## Quick reference (slide 25 cheat sheet)
 
 - **Shift+Tab** — cycle normal → auto-accept → plan mode

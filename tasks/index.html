@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Claude Code — Hands-on tasks</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --teal: #285064;
+    --teal-dark: #1c3a49;
+    --blue: #97d5ff;
+    --dark-green: #507864;
+    --yellow: #fddc73;
+    --light-green: #a4cb8d;
+    --purple: #a26284;
+    --red: #e28a76;
+    --brown: #968c6d;
+    --grid: #d3d3d3;
+    --bg: #f7f8f6;
+    --panel: #ffffff;
+    --text: #1e2b31;
+    --text-muted: #55636a;
+    --border: #dfe4e2;
+    --code-bg: #eef2f0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14201f;
+      --panel: #1b2b2c;
+      --text: #eaf1ee;
+      --text-muted: #a9bcb8;
+      --border: #2c3e3d;
+      --code-bg: #16302f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+  }
+  header {
+    background: var(--teal);
+    color: #fff;
+    padding: 20px 24px;
+  }
+  header h1 { margin: 0 0 4px; font-size: 1.35rem; }
+  header p { margin: 0; color: var(--blue); font-size: 0.95rem; }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) 260px;
+    gap: 0;
+    align-items: start;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    nav { border-right: none; border-bottom: 1px solid var(--border); }
+    aside.tips { border-left: none; border-top: 1px solid var(--border); position: static; }
+  }
+
+  nav {
+    padding: 20px 12px;
+    border-right: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    align-self: start;
+  }
+  nav button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    margin-bottom: 4px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 0.92rem;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  nav button:hover { background: var(--code-bg); }
+  nav button.active { background: var(--teal); color: #fff; }
+  nav .num {
+    display: inline-block;
+    width: 1.4em;
+    color: var(--text-muted);
+  }
+  nav button.active .num { color: var(--blue); }
+
+  main {
+    padding: 24px 28px 60px;
+    min-width: 0;
+  }
+  section.task { display: none; }
+  section.task.active { display: block; }
+
+  h2 { margin-top: 0; color: var(--teal-dark); }
+  @media (prefers-color-scheme: dark) { h2 { color: var(--blue); } }
+
+  .goal {
+    background: var(--code-bg);
+    border-left: 4px solid var(--teal);
+    padding: 10px 14px;
+    margin: 12px 0 20px;
+    font-size: 0.95rem;
+  }
+  .goal b { color: var(--teal-dark); }
+  @media (prefers-color-scheme: dark) { .goal b { color: var(--blue); } }
+
+  .folder {
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+
+  h3 { margin: 24px 0 8px; font-size: 1.05rem; }
+
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    font-size: 0.85rem;
+    white-space: pre-wrap;
+  }
+  code {
+    font-family: ui-monospace, Consolas, monospace;
+  }
+  a { color: var(--teal); }
+  @media (prefers-color-scheme: dark) { a { color: var(--blue); } }
+
+  .flag {
+    border-left: 4px solid var(--red);
+    background: var(--code-bg);
+    padding: 8px 12px;
+    margin: 12px 0;
+    font-size: 0.88rem;
+  }
+  .flag b { color: var(--red); }
+
+  table.data { border-collapse: collapse; width: 100%; margin: 10px 0 18px; font-size: 0.88rem; }
+  table.data th, table.data td { border: 1px solid var(--border); padding: 6px 10px; text-align: left; vertical-align: top; }
+  table.data th { background: var(--code-bg); }
+
+  aside.tips {
+    padding: 20px 18px;
+    border-left: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    align-self: start;
+  }
+  aside.tips h2 { font-size: 1rem; margin-top: 0; }
+  aside.tips ol { padding-left: 18px; margin: 0; font-size: 0.88rem; }
+  aside.tips li { margin-bottom: 14px; }
+  aside.tips li b { display: block; color: var(--teal-dark); margin-bottom: 2px; }
+  @media (prefers-color-scheme: dark) { aside.tips li b { color: var(--blue); } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Claude Code — Hands-on tasks</h1>
+  <p>Now that you've seen the four demos, pick a task below and work through it with Claude Code.</p>
+</header>
+
+<div class="layout">
+  <nav id="nav">
+    <button data-target="start" class="active"><span class="num">·</span>Getting started</button>
+    <button data-target="task-1"><span class="num">1</span>GitHub MCP</button>
+    <button data-target="task-2"><span class="num">2</span>Skills &amp; agents</button>
+    <button data-target="task-3"><span class="num">3</span>Price notebook</button>
+    <button data-target="task-4"><span class="num">4</span>Elhub dashboard</button>
+    <button data-target="task-5"><span class="num">5</span>Hydrology dashboard</button>
+    <button data-target="task-6"><span class="num">6</span>Your own idea</button>
+  </nav>
+
+  <main>
+
+    <section class="task active" id="start">
+      <h2>Getting started</h2>
+      <p>Six tasks, roughly in order of "warm-up" to "open-ended." You don't need to
+      finish all of them — pick what looks interesting and go as deep as time allows.</p>
+
+      <h3>Folder structure</h3>
+      <p>Each task has a matching empty folder under <code>tasks/</code> — build your
+      solution there so it's obvious what belongs to which task:</p>
+      <pre>tasks/task-1-github-mcp/
+tasks/task-2-skills-agents/
+tasks/task-3-price-notebook/
+tasks/task-4-elhub-dashboard/
+tasks/task-5-hydrology-dashboard/
+tasks/task-6-freeform/</pre>
+
+      <h3>Use your own branch</h3>
+      <p>Before starting a task, branch off — but a plain name like
+      <code>task-1-github-mcp</code> will collide the moment two people in the
+      room use it against the same remote. Work something unique to you into
+      it, e.g.:</p>
+      <pre>git checkout -b &lt;your-name&gt;/task-1-github-mcp</pre>
+      <p>Commit as you go — ask Claude to do it, or use <code>/commit</code> if
+      you built the skill in Demo 4.</p>
+      <p><b>Tip:</b> once Task 1 has GitHub MCP connected, ask Claude to create
+      the branch for you on the tasks after that — it can check what already
+      exists on the remote and avoid a collision itself.</p>
+
+      <h3>Environment</h3>
+      <p>If a task needs a Python environment, just ask Claude to set one up —
+      <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">uv</a> is a
+      good default (Claude can install it for you if it's missing). For a quick
+      Streamlit check without uv, <code>pip install streamlit</code> works fine too.</p>
+
+      <h3>Still applies</h3>
+      <p><b>Shift+Tab</b> to cycle modes · <b>Esc</b> / <b>Esc Esc</b> to interrupt or
+      rewind · <b>/clear</b> for a fresh task · <b>/context</b> to see what's filling
+      the window · <b>!</b> to run a shell command without leaving Claude Code.</p>
+    </section>
+
+    <section class="task" id="task-1">
+      <h2>Task 1 — GitHub MCP</h2>
+      <div class="folder">tasks/task-1-github-mcp/</div>
+      <div class="goal"><b>Goal:</b> connect Claude Code to GitHub and use it to
+      interact with <em>this</em> repository.</div>
+
+      <h3>1. Set it up</h3>
+      <p>Follow the official guide:
+      <a href="https://github.com/github/github-mcp-server" target="_blank" rel="noopener">github.com/github/github-mcp-server</a>.
+      If you already have a <code>github</code> MCP server configured from Demo 4,
+      you're done — check with:</p>
+      <pre>claude mcp list</pre>
+
+      <h3>2. Try it out</h3>
+      <p>Figuring out what to ask for is the task — no scripts here. A few
+      directions worth exploring on your own: confirming who you're
+      authenticated as, reading things (issues, PRs, commit history), and —
+      carefully — a write action such as opening a PR or filing an issue.</p>
+
+      <div class="flag"><b>Heads up:</b> this is a real, shared GitHub repo. Prefer
+      your own branch for anything that writes, and clean up any test issues/PRs you
+      create.</div>
+    </section>
+
+    <section class="task" id="task-2">
+      <h2>Task 2 — Build a skill (and maybe an agent)</h2>
+      <div class="folder">tasks/task-2-skills-agents/</div>
+      <div class="goal"><b>Goal:</b> build at least one skill you'll actually
+      reuse for the rest of the day. A subagent is a good second exercise if
+      you want one.</div>
+
+      <h3>Skill vs. agent, in one line</h3>
+      <p>A <b>skill</b> is a fixed procedure, invoked by name (or
+      automatically) — same steps every time, like Demo 4's
+      <code>/commit</code>. A <b>subagent</b> is a delegate for open-ended,
+      investigative work — it explores something and reports back without
+      touching your files or your context, like Demo 4's
+      <code>test-runner</code>.</p>
+
+      <h3>Build a skill you'll use again</h3>
+      <p>Pick at least one — all three get reused in the tasks after this one:</p>
+      <ol>
+        <li><b>commit-and-push.</b> Extend Demo 4's <code>/commit</code> skill
+        (or build fresh) to also push the branch, and optionally open a PR
+        through the GitHub MCP from Task 1. You'll want this at the end of
+        every task from here on.</li>
+        <li><b>THEMA plot style.</b> Apply <code>plot_config.py</code>'s theme
+        (<code>set_matplotlib_theme()</code>, <code>get_plot_color()</code>)
+        and drop the colored background on any matplotlib figure, without
+        asking for those steps by hand each time — straight reuse in Task 3.</li>
+        <li><b>Branch setup.</b> Creates a uniquely named branch (see the
+        collision note in Getting Started) and switches into the right
+        <code>tasks/task-N-.../</code> folder in one step.</li>
+      </ol>
+
+      <h3>Optional: try a subagent</h3>
+      <p>Less obvious where these pay off — one candidate that's genuinely
+      useful here:</p>
+      <p><b>data-scout</b> — a read-only subagent that explores a new API
+      (Elhub, NVE, ENTSO-E) and reports back what's really there — endpoints,
+      fields, units, gaps — without touching any files. Tasks 4 and 5 both ask
+      you to assess data quality before building; that's where you'd reach
+      for it.</p>
+    </section>
+
+    <section class="task" id="task-3">
+      <h2>Task 3 — Zero-price hour overlap: NO2 vs. Germany</h2>
+      <div class="folder">tasks/task-3-price-notebook/</div>
+      <div class="goal"><b>Goal:</b> a Jupyter notebook plotting, by hour of day, how
+      much NO2's and Germany's zero-price hours overlap in the REF_2030 scenario —
+      then take it from "no style" to on-brand.</div>
+
+      <h3>Data</h3>
+      <p>THEMA REF_2030 scenario output:</p>
+      <pre>\\jp-s0d9e-001\C on Crunchy 4\00_Model_Analysis\06_Price_Forecast\MAR26\0_Final_Model_Output\Scenario_Output</pre>
+      <p>Files are named like <code>REF_2030_Prices.txt</code> — tab-separated, one
+      row per hour, zone codes (incl. <code>NO2</code>, <code>DEU</code>) as
+      columns, two leading index columns (day-of-year, hour-of-day 1–24), prices in
+      EUR/MWh.</p>
+
+      <p>Work through it in four stages, in this order — figuring out how to
+      ask for each stage is the task:</p>
+      <ol>
+        <li><b>Build it plain.</b> Load both zones' data, compute zero-price
+        hours grouped by hour-of-day, plot the overlap. Plain matplotlib, no
+        custom styling.</li>
+        <li><b>Pull in THEMA's actual brand colors.</b> Paste in THEMA's
+        website URL yourself and have the colors sampled from it.</li>
+        <li><b>Switch to the repo's <code>plot_config.py</code></b> instead of
+        hand-picked colors — it already has a <code>"Zero price"</code> color
+        defined, plus zone colors for NO2/DEU.</li>
+        <li><b>Remove the colored figure background</b> that
+        <code>plot_config.py</code>'s dark theme adds.</li>
+      </ol>
+
+      <div class="flag"><b>Note:</b> the network path is internal — reachable if
+      you're on the company VPN. If you're off VPN and can't reach it, ask
+      Claude to generate a small synthetic REF_2030-style dataset first so you
+      can build the notebook logic, then swap in the real files once
+      connected.</div>
+    </section>
+
+    <section class="task" id="task-4">
+      <h2>Task 4 — Elhub dashboard: cost of Norgespris to the state</h2>
+      <div class="folder">tasks/task-4-elhub-dashboard/</div>
+      <div class="goal"><b>Goal:</b> a dashboard estimating what Norgespris costs
+      the Norwegian state between a chosen start and end date. (Or build a different
+      Elhub-based dashboard entirely — this is just a strong suggestion.)</div>
+
+      <h3>What is Norgespris?</h3>
+      <p>A voluntary, state-funded fixed electricity price for Norwegian households
+      (not businesses): 50 øre/kWh incl. VAT in most of the country, up to a cap of
+      5,000 kWh/month for homes (1,000 kWh/month for cabins) — usage above the cap
+      is billed at the ordinary rate. The state settles the difference between that
+      fixed price and the market price. It launched 1 Oct 2025, opt-in via BankID.
+      Ask Claude to verify current details against
+      <a href="https://www.regjeringen.no/no/tema/energi/strom/sporsmal-og-svar-om-norgespris/id3089310/" target="_blank" rel="noopener">regjeringen.no's Q&amp;A page</a>
+      before relying on the numbers above — the scheme can change.</p>
+
+      <h3>Recommended way in</h3>
+      <ol>
+        <li>Explain Norgespris to Claude (or point it at the link above) so it has the mechanics right.</li>
+        <li>Let Claude help you find the data — start with the sources below rather than guessing endpoints.</li>
+        <li>Assess data quality together: is a figure a real measurement, an estimate, or a proxy? Say so in the dashboard.</li>
+        <li>Where data is missing, make an explicit, stated assumption rather than silently guessing.</li>
+      </ol>
+
+      <h3>Data sources</h3>
+      <table class="data">
+        <tr><th>What</th><th>Where</th></tr>
+        <tr><td>Households on Norgespris, by area</td><td>
+          <a href="https://elhub.no/data-og-innsikt/statistikk-for-norgespris" target="_blank" rel="noopener">elhub.no Norgespris statistics</a>
+          and/or the <a href="https://api.elhub.no/" target="_blank" rel="noopener">Elhub API</a>
+          (<code>api.elhub.no/energy-data-api</code>) — check yourself whether the
+          Norgespris counts are queryable there or only on the statistics page;
+          it's unconfirmed either way.</td></tr>
+        <tr><td>Household electricity consumption</td><td>Elhub API — hourly consumption by price area / consumer group.</td></tr>
+        <tr><td>Power (spot) prices</td><td><b>Not in Elhub.</b> Use the
+          <a href="https://transparency.entsoe.eu/" target="_blank" rel="noopener">ENTSO-E Transparency Platform</a>
+          (free registration + emailed token; day-ahead prices are documentType
+          <code>A44</code>, per bidding zone NO1–NO5).</td></tr>
+      </table>
+
+      <h3>Suggested build order</h3>
+      <p>Number of households on Norgespris → their consumption → the power price →
+      combine into a cost-to-the-state estimate over your chosen date range. Get
+      the first step working and reviewed before adding the next.</p>
+    </section>
+
+    <section class="task" id="task-5">
+      <h2>Task 5 — NVE hydrological status &amp; year-end simulation</h2>
+      <div class="folder">tasks/task-5-hydrology-dashboard/</div>
+      <div class="goal"><b>Goal:</b> a dashboard that takes today's reservoir
+      filling level and simulates where it lands by year-end if the rest of the
+      year follows a historical year's pattern — a first step toward a simple
+      "how critical could this get" tool.</div>
+
+      <h3>Easiest path: NVE's MCP server</h3>
+      <p><a href="https://allemannsdata.com/#category-transport-geography" target="_blank" rel="noopener">Allemannsdata</a>
+      (a free, no-key community project) runs an MCP server wrapping several
+      NVE datasets — including a <code>get_snow_and_inflow</code> tool:
+      modelled snow and inflow at any point in Norway, from NVE's seNorge grid
+      model (1×1 km, no key) — about as close to "nyttbart tilsig" as you'll
+      get without wrangling raw hydrological data yourself. Connect it:</p>
+      <pre>claude mcp add --transport http nve https://allemannsdata.com/nve/mcp</pre>
+      <p>It also has tools for reservoir fill level/history/min-max-median and
+      hydrological station lookup/observations. Ask Claude what tools the
+      <code>nve</code> server exposes once it's connected, or check the site
+      for the full list.</p>
+
+      <h3>If you'd rather call the APIs directly</h3>
+      <p>The MCP above wraps NVE's Magasinstatistikk API in part — you can also
+      call it yourself: <code>https://biapi.nve.no/magasinstatistikk/</code>,
+      docs at <a href="https://api.nve.no/doc/magasinstatistikk/" target="_blank" rel="noopener">api.nve.no/doc/magasinstatistikk</a>,
+      no key, JSON, weekly data back to 1995, nationally / per elspot area
+      (NO1–NO5) / per <em>vassdragsområde</em>.</p>
+      <table class="data">
+        <tr><th>Field</th><th>Meaning</th></tr>
+        <tr><td><code>fyllingsgrad</code></td><td>Filling degree, 0–1</td></tr>
+        <tr><td><code>fylling_TWh</code> / <code>kapasitet_TWh</code></td><td>Stored / capacity, in <b>TWh</b></td></tr>
+        <tr><td><code>iso_uke</code> / <code>iso_aar</code></td><td>ISO week / year</td></tr>
+        <tr><td><code>omrType</code> / <code>omrnr</code></td><td>Area type (EL = elspot, VASS = watershed, land = national) and number</td></tr>
+      </table>
+      <div class="flag"><b>Correction:</b> "Nyttbart tilsig" (usable inflow) is
+      <em>not</em> a field in this REST API — that's what the MCP's
+      <code>get_snow_and_inflow</code> tool is for. NVE also runs
+      <a href="https://hydapi.nve.no/" target="_blank" rel="noopener">HydAPI</a>
+      (docs: <a href="https://api.nve.no/doc/hydrologiske-data/" target="_blank" rel="noopener">api.nve.no/doc/hydrologiske-data</a>)
+      with raw streamflow ("Vannføring", m³/s) per gauging station — real
+      inflow data, but per station rather than per elspot area, needs a free
+      API key, and needs converting from m³/s to energy units yourself.</div>
+
+      <h3>Not using the MCP? Derive an inflow-like figure instead</h3>
+      <p>You have weekly storage (<code>fylling_TWh</code>) from Magasinstatistikk.
+      If you also get how much energy was actually <b>produced from
+      reservoirs</b> in the same week, you can back out an approximate inflow
+      from the water balance:</p>
+      <pre>inflow ≈ (storage this week − storage last week) + reservoir production</pre>
+      <p>For reservoir production, use the
+      <a href="https://transparency.entsoe.eu/" target="_blank" rel="noopener">ENTSO-E Transparency Platform</a>
+      (same free token as Task 4) — "Actual Generation per Production Type",
+      PSR type <b>B12 = Hydro Water Reservoir</b> (distinct from B11
+      run-of-river and B10 pumped storage), hourly, per bidding zone NO1–NO5.
+      That production figure also directly answers "how much energy was
+      dispatched from the reservoirs" on its own, no derivation needed. This
+      approach ignores spill (water released without generating) — state that
+      as an assumption rather than hiding it.</p>
+
+      <h3>The simulation</h3>
+      <p>Take this week's actual filling level. For a historical year the user
+      picks, apply that year's week-by-week <em>change</em> in filling degree from
+      the same ISO week forward to year-end, and project where the level lands.
+      Let the user compare several years' paths against the historical
+      min/max/median band for context.</p>
+
+      <h3>Stretch goal</h3>
+      <p>Use whichever inflow-like series you ended up with to find the years
+      with the worst autumn inflow, and the reservoir fill/production data to
+      find the years where the most water was conserved (smallest autumn
+      drawdown). Let the user cross the two to see the worst-case combination
+      — and show whatever assumptions you made next to the numbers.</p>
+    </section>
+
+    <section class="task" id="task-6">
+      <h2>Task 6 — Your own idea</h2>
+      <div class="folder">tasks/task-6-freeform/</div>
+      <div class="goal"><b>Goal:</b> whatever you've been meaning to try with
+      Claude Code — a past task, a personal itch, anything.</div>
+      <p>No prompt provided on purpose. Branch, work in
+      <code>tasks/task-6-freeform/</code>, and go.</p>
+    </section>
+
+  </main>
+
+  <aside class="tips">
+    <h2>Tips &amp; tricks</h2>
+    <ol>
+      <li><b>Ask Claude for help setting up.</b> Environments, ideas for what to
+      analyze — just ask.</li>
+      <li><b>Streamlit for quick dashboards.</b> Fast to stand up, good default for
+      these tasks.</li>
+      <li><b>uv for environments.</b> If you don't have it, Claude can install it.</li>
+      <li><b>Try different workflows.</b> Plan mode + auto-accept vs. fully manual —
+      see which suits the task.</li>
+      <li><b>Try different models.</b> Same task, different model — compare token
+      use and quality.</li>
+    </ol>
+  </aside>
+</div>
+
+<script>
+  var buttons = document.querySelectorAll('#nav button');
+  var sections = document.querySelectorAll('section.task');
+  function show(id) {
+    sections.forEach(function (s) { s.classList.toggle('active', s.id === id); });
+    buttons.forEach(function (b) { b.classList.toggle('active', b.dataset.target === id); });
+  }
+  buttons.forEach(function (b) {
+    b.addEventListener('click', function () { show(b.dataset.target); });
+  });
+</script>
+
+</body>
+</html>
