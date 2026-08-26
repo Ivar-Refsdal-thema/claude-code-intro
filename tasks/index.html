@@ -210,6 +210,17 @@ tasks/task-6-freeform/</pre>
       the branch for you on the tasks after that — it can check what already
       exists on the remote and avoid a collision itself.</p>
 
+      <h3>Moving to the next task</h3>
+      <p>Run Claude Code from the repo root the whole way through — just tell
+      it which <code>tasks/task-N-.../</code> folder you're working in for
+      that task. Don't <code>cd</code> into the subfolder: several tasks need
+      repo-root context (<code>plot_config.py</code>, GitHub MCP acting on the
+      whole repo).</p>
+      <p>Between tasks: commit and push what you have, then <code>/clear</code>
+      (or start a fresh <code>claude</code> session) before switching
+      branches — a previous task's context tends to bias the next one rather
+      than help it.</p>
+
       <h3>Environment</h3>
       <p>If a task needs a Python environment, just ask Claude to set one up —
       <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">uv</a> is a
@@ -285,6 +296,12 @@ tasks/task-6-freeform/</pre>
       fields, units, gaps — without touching any files. Tasks 4 and 5 both ask
       you to assess data quality before building; that's where you'd reach
       for it.</p>
+
+      <div class="flag"><b>Note:</b> skills and subagents live under
+      <code>.claude/</code> at the repo root — they only help in later tasks
+      if that folder is on the branch you're using then. Merge this task's
+      branch back into <code>main</code> before you branch off for Task 3 (a
+      PR through the GitHub MCP from Task 1 works nicely for this).</div>
     </section>
 
     <section class="task" id="task-3">
